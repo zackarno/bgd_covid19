@@ -14,7 +14,7 @@ analysis_framework<-butteR::read_all_csvs_in_folder(input_csv_folder = "inputs/d
 dap<-analysis_framework$covid_indicator_indicator_dap.csv
 analysis_params<-analysis_framework$covid_analysis_parameter_selection.csv
 
-wash_hh_indicators<-dap$covid_indicator_indicator_dap.csv %>%
+wash_hh_indicators<-dap %>%
   filter(assessment=="WASH_R_3" & spatial_level_2== script_analysis_level) %>%
   pull(indicator)
 msna_indiv_dap<-dap %>% filter(assessment=="MSNA_Ref"& spatial_level_2== script_analysis_level)
