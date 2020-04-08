@@ -45,7 +45,9 @@ vignettes/*.pdf
 
 
 /outputs/*
-!/outputs/.gitkeep
+!/outputs/gis
+outputs/gis/*
+!/outputs/gis/.gitkeep
 
 
 
