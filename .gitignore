@@ -39,8 +39,15 @@ vignettes/*.pdf
 .Renviron
 
 /inputs/*
+!/inputs/inputs_hq
+/inputs/inputs_hq/*
 !/inputs/inputs_hq/.gitkeep
 
-outputs/*
+
+/outputs/*
+!/outputs/.gitkeep
+
+
+
 
 
