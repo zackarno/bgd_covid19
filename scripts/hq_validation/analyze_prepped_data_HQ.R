@@ -8,7 +8,7 @@ library(googlesheets4)
 library(tidyverse)
 source("scripts/hq_validation/prepare_msna_wash_inputs_HQ.R")
 
-
+script_analysis_level<-c("grid","block")[1]
 analysis_framework<-butteR::read_all_csvs_in_folder(input_csv_folder = "inputs/dap")
 
 dap<-analysis_framework$covid_indicator_indicator_dap.csv
