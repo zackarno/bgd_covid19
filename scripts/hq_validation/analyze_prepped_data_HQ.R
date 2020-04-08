@@ -1,3 +1,4 @@
+
 library(dplyr)
 library(lubridate)
 library(sf)
@@ -9,6 +10,9 @@ library(tidyverse)
 source("scripts/hq_validation/prepare_msna_wash_inputs_HQ.R")
 
 script_analysis_level<-c("grid","block")[1]
+if(script_analysis_level=="grid"){
+  aggreg_to="grid_id"
+}
 analysis_framework<-butteR::read_all_csvs_in_folder(input_csv_folder = "inputs/dap")
 
 dap<-analysis_framework$covid_indicator_indicator_dap.csv
@@ -24,7 +28,7 @@ msna_indiv_indicators<-msna_indiv_dap %>% pull(indicator)
 
 # analyze_data ------------------------------------------------------------
 library(srvyr)
-msna_indiv$I.ind_smoke_female<-fct_expand(msna_indiv_on_grid$I.ind_smoke_female, c("no","yes"))
+msna_indiv$I.ind_smoke_female<-fct_expand(msna_indiv$I.ind_smoke_female, c("no","yes"))
 wash_hh_svy<-as_survey(wash_hh)
 msna_indiv_svy<-as_survey(msna_indiv)
 
