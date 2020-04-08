@@ -8,14 +8,13 @@ library(googlesheets4)
 library(tidyverse)
 source("scripts/hq_validation/prepare_msna_wash_inputs_HQ.R")
 
-# GOOGLESHEETS4!READ IN DAP
 
-googlesheet_url<-"https://docs.google.com/spreadsheets/d/1oqhPtJdhe1a1kr1MojGoWfPxbgDlIaEeISe1nuKSh2k/"
-dap<-googlesheets4::read_sheet(googlesheet_url, sheet = "sdr_indicator_selection")
-analysis_params<-googlesheets4::read_sheet(googlesheet_url, sheet = "sdr_analysis_params")
+analysis_framework<-butteR::read_all_csvs_in_folder(input_csv_folder = "inputs/dap")
 
+dap<-analysis_framework$covid_indicator_indicator_dap.csv
+analysis_params<-analysis_framework$covid_analysis_parameter_selection.csv
 
-wash_hh_indicators<-dap %>%
+wash_hh_indicators<-dap$covid_indicator_indicator_dap.csv %>%
   filter(assessment=="WASH_R_3" & spatial_level_2== script_analysis_level) %>%
   pull(indicator)
 msna_indiv_dap<-dap %>% filter(assessment=="MSNA_Ref"& spatial_level_2== script_analysis_level)

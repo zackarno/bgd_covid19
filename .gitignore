@@ -40,6 +40,7 @@ vignettes/*.pdf
 
 /inputs/*
 !/inputs/inputs_hq
+!inputs/dap
 /inputs/inputs_hq/*
 !/inputs/inputs_hq/.gitkeep
 
@@ -48,6 +49,7 @@ vignettes/*.pdf
 !/outputs/gis
 outputs/gis/*
 !/outputs/gis/.gitkeep
+
 
 
 

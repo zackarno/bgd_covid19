@@ -1,0 +1,27 @@
+"","status","assessment","analysis_level","spatial_level_1","spatial_level_2","indicator","options","label","composite_indicator_details"
+"1","done","WASH_R_3","HH","grid","grid","lat_soap","lat_soap.no","Did the latrine you normally use have soap the last time you used it? No",NA
+"2","done","WASH_R_3","HH","gird","grid","I.wst_disp.open_area","I.wst_disp.open_area.yes","Where does your household normally dispose of domestic waste? Open area","wst_disp.undesignated_openarea | wst_disp.designated_openarea"
+"3","done","WASH_R_3","HH","grid","grid","I.wash_hands.all_food_times","I.wash_hands.all_food_times.no","% of households that did not think it was important to wash hands at one or more feeding times (breast feeding, prepping food, feeding children, eating)","wash_hands.bfr_eat &
+      wash_hands.bfr_brst_feed &
+      wash_hands.bfr_prep_food &
+      wash_hands.bfr_feed_child"
+"4","done","WASH_R_3","HH","grid","grid","I.wash_hands.all_fecal_times","I.wash_hands.all_fecal_times.no","% of households that did not think it was important to wash hands either after defecation or cleaning childs bottom","wash_hands.cleaning_chld_bottom & wash_hands.aftr_defecation"
+"5","done","WASH_R_3","HH","grid","grid","I.is_disab","I.is_disab.yes","% of households with an individual found to have a disability (using Washington Group Questions)","see MSNA"
+"6","done","WASH_R_3","HH","grid","grid","I.time_coll_wat.gte10min","I.time_coll_wat.gte10min.yes","% of households that spend >= 10 minutes in que/waiting at there main water point","times gte 10 min"
+"7","done","WASH_R_3","HH","grid","grid","I.time_wat.gte10min","I.time_wat.gte10min.yes","% of households that spend >= 20 minutes walking to and from there main water point","times gte 20 min"
+"8","done","MSNA_Ref","HH","grid","block","I.HEALTH.indhelp_atleast.INDVHH","I.HEALTH.indhelp_atleast.INDVHH.yes","% Households with at least on individual who requires assistance to perform every day tasks","see MSNA"
+"9","done","MSNA_Ref","Ind","block","grid","ind_help_daily","ind_help_daily.yes","% Individuals who need assistance performing every day tasks","see MSNA"
+"10","done","MSNA_Ref","Ind","grid","grid","I.HEALTH.ind_formal_treatment","I.HEALTH.ind_formal_treatment.no","% HH needing medical treatment that did not recieve it or only recieved it from an informal source","I.HEALTH.ind_formal_treatment= case_when(
+      treatment_sought==""no""~ ""no"",
+      treatment_sought==""yes"" & formal_treatment==F~ ""no"",
+      treatment_sought==""yes""~ ""yes"",
+      TRUE ~ NA_character_)"
+"11","done","MSNA_Ref","Ind","grid","grid","I.HEALTH.ind_smoke_some_all_days.INDV","I.HEALTH.ind_smoke_some_all_days.INDV.yes","% Individuals who smoke cigarettes","ind_smoke %in% c( ""everyday"",  ""some_day"")"
+"12",NA,"MSNA_Ref","Ind",NA,"grid","I.ind_smoke_male","I.ind_smoke_male.yes",NA,NA
+"13",NA,"MSNA_Ref","Ind",NA,"grid","I.ind_smoke_female","I.ind_smoke_female.yes",NA,NA
+"14","done","MSNA_Ref","Ind","block","grid","I.ind_age_group_gte40","I.ind_age_group_gte40.yes",NA,NA
+"15",NA,"MSNA_Ref","Ind",NA,"grid","I.ind_age_group_gte50","I.ind_age_group_gte50.yes",NA,NA
+"16",NA,"MSNA_Ref","Ind",NA,"grid","I.ind_age_group_gte60","I.ind_age_group_gte60.yes",NA,NA
+"17",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"18","not_done","UNHCR_Cen",NA,"ISCG block","block","unhcr_age_group",NA,NA,NA
+"19","not_done","UNOSAT",NA,"grid","grid","footprint_density",NA,NA,NA
