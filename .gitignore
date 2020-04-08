@@ -39,6 +39,8 @@ vignettes/*.pdf
 .Renviron
 
 /inputs/*
-outputs/*
 !/inputs/inputs_hq/.gitkeep
-!/other/.gitkeep
+
+outputs/*
+
+
