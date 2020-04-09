@@ -12,6 +12,8 @@ source("scripts/hq_validation/prepare_msna_wash_inputs_HQ.R")
 script_analysis_level<-c("grid","block")[1]
 if(script_analysis_level=="grid"){
   aggreg_to="grid_id"
+  strata_poly<-st_read(dsn = "inputs/gis",layer = "hex300m_bgd_camps")
+  colnames(strata_poly)[2:3]<-c("wash_pts_per_grid", "msna_indiv_pts_per_grid")
 }
 analysis_framework<-butteR::read_all_csvs_in_folder(input_csv_folder = "inputs/dap")
 
@@ -76,11 +78,10 @@ wash_analysis_to_map_long<-wash_analysis_to_map %>%
 results_to_map_long<-do.call("rbind", list(wash_analysis_to_map_long, msna_analysis_to_map_long))
 
 
+
 strata_poly_long<- strata_poly %>%
-  mutate(wash_pts_per_grid=lengths(st_intersects(strata_poly,wash_hh_sf)),
-         msna_indiv_pts_per_grid=lengths(st_intersects(strata_poly,msna_indiv_sf))) %>%
   left_join(results_to_map_long) %>%
   mutate(pts_per_grid= ifelse(assessment=="WASH_R_3",wash_pts_per_grid, msna_indiv_pts_per_grid))
 
-
-# st_write(strata_poly_long, "outputs/gis/hex300m_covid_results.shp")
+#
+# # st_write(strata_poly_long, "outputs/gis/hex300m_covid_results.shp")

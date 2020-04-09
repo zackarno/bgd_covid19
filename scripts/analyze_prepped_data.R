@@ -38,11 +38,13 @@ strata_poly<-st_read(cmp_gdb,"CampBoudaryA2_190310_reach_edited", stringsAsFacto
   strata_poly %>%    filter(!BlockNam %in% pop_block$block)
 
 }
+
+
 if(script_analysis_level=="grid"){
   aggreg_to="grid_id"
   strata_poly<-st_make_grid(x = cmp %>% st_transform(crs=32646),cellsize = grid_size,square = F) %>%
     st_transform(crs=4326)
-  strata_poly<- st_as_sf(data.frame(grid_id=paste0("gr_",1:length(hex)),geometry=hex))
+  strata_poly<- st_as_sf(data.frame(grid_id=paste0("gr_",1:length(strata_poly)),geometry=strata_poly))
 
 }
 
@@ -166,7 +168,6 @@ if(script_analysis_level=="block"){
   results_to_map_long %>%
     filter(indicator=="I.ind_age_group.gte_60") %>%
     select(indicator_val,v.old,proj_pop)}
-
 
 strata_poly_long<- strata_poly %>%
   mutate(wash_pts_per_grid=lengths(st_intersects(strata_poly,wash_hh_sf)),
