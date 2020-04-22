@@ -82,9 +82,11 @@ analysis_params<-googlesheets4::read_sheet(googlesheet_url, sheet = "sdr_analysi
 wash_hh_indicators<-dap %>%
   filter(assessment=="WASH_R_3" & spatial_level_2== script_analysis_level) %>%
   pull(indicator)
-msna_indiv_dap<-dap %>% filter(assessment=="MSNA_Ref"& spatial_level_2== script_analysis_level)
+msna_indiv_dap<-dap %>% filter(assessment=="MSNA_Ref"& spatial_level_2== script_analysis_level & analysis_level=="Ind")
 msna_indiv_indicators<-msna_indiv_dap %>% pull(indicator)
-
+msna_hh_indicators<-dap %>%
+  filter(assessment=="MSNA_Ref"& spatial_level_2== script_analysis_level & analysis_level=="HH") %>%
+  pull(indicator)
 
 wash_hh_sf<-st_as_sf(wash_hh,coords = kobo_coords, crs=4326)
 wash_joined_strata<-wash_hh_sf %>%
@@ -92,7 +94,10 @@ wash_joined_strata<-wash_hh_sf %>%
 
 
 msna_indiv_sf<- st_as_sf(msna_indiv, coords=kobo_coords, crs=4326)
+msna_hh_sf<- st_as_sf(msna_hh, coords=kobo_coords, crs=4326)
 msna_joined_strata<- msna_indiv_sf %>%
+  st_join(strata_poly)
+msna_hh_joined_strata<- msna_hh_sf %>%
   st_join(strata_poly)
 
 
@@ -112,17 +117,30 @@ strata_poly %>%
 
 # analyze_data ------------------------------------------------------------
 library(srvyr)
-msna_joined_strata$I.ind_smoke_female<-fct_expand(msna_indiv_on_grid$I.ind_smoke_female, c("no","yes"))
+
+msna_joined_strata$I.ind_smoke_female<-forcats::fct_expand(msna_joined_strata$I.ind_smoke_female, c("no","yes"))
+
+wash_joined_strata$wst_burn<-ifelse(is.na(wash_joined_strata$wst_burn), "no", "yes")
+
 wash_hh_svy<-as_survey(wash_joined_strata %>% st_drop_geometry())
 msna_indiv_svy<-as_survey(msna_joined_strata %>% st_drop_geometry())
+msna_hh_svy<-as_survey(msna_hh_joined_strata %>% st_drop_geometry())
 
 
 wash_indicators_analyzed<-butteR::mean_proportion_table(design = wash_hh_svy,
                                                              list_of_variables = wash_hh_indicators,
                                                              aggregation_level = aggreg_to,
                                                              na_replace = F)
+
+
+
 msna_indiv_indicators_analyzed<-butteR::mean_proportion_table(design = msna_indiv_svy,
                                                              list_of_variables = msna_indiv_indicators,
+                                                             aggregation_level = aggreg_to,
+                                                             na_replace = F)
+
+msna_hh_indicators_analyzed<-butteR::mean_proportion_table(design = msna_hh_svy,
+                                                             list_of_variables = msna_hh_indicators,
                                                              aggregation_level = aggreg_to,
                                                              na_replace = F)
 
@@ -130,11 +148,14 @@ msna_indiv_indicators_analyzed<-butteR::mean_proportion_table(design = msna_indi
 
 
 
-msna_indicators_to_map<-analysis_params %>% filter(assessment== "MSNA_Ref" & analysis_level=="Ind" ) %>% pull(options)
-msna_indicators_to_map<- msna_indicators_to_map[msna_indicators_to_map %in% colnames(msna_indiv_indicators_analyzed)]
-msna_analysis_to_map<-msna_indiv_indicators_analyzed %>% select(c(aggreg_to,msna_indicators_to_map))
+
+msna_indicators_to_map<-analysis_params %>% filter(assessment== "MSNA_Ref"  ) %>% pull(options)
+msna_indicators_analyzed<-msna_indiv_indicators_analyzed%>% left_join(msna_hh_indicators_analyzed)
+msna_indicators_to_map<- msna_indicators_to_map[msna_indicators_to_map %in% colnames(msna_indicators_analyzed)]
+msna_analysis_to_map<-msna_indicators_analyzed %>% select(c(aggreg_to,msna_indicators_to_map))
 
 
+analysis_params %>% View()
 # wash_indicators_to_map[!wash_indicators_to_map %in%wash_indicators_to_map2]
 wash_indicators_to_map<-analysis_params %>% filter( assessment=="WASH_R_3") %>% pull(options)
 wash_indicators_to_map<- wash_indicators_to_map[wash_indicators_to_map %in% colnames(wash_indicators_analyzed)]
@@ -175,8 +196,20 @@ strata_poly_long<- strata_poly %>%
   left_join(results_to_map_long) %>%
   mutate(pts_per_grid= ifelse(assessment=="WASH_R_3",wash_pts_per_grid, msna_indiv_pts_per_grid))
 
+strata_poly_long$indicator %>% unique()
+# st_write(strata_poly_long,"outputs/gis/bgd_covid2020.gpkg",layer="msna_ref_wash_2019_indicators_300m", layer_options = 'OVERWRITE=YES', update = TRUE)
+
+# st_write(strata_poly_long, paste0("outputs/gis/bgd_covid2020_", grid_size,"m/" ,"bgd_covid2020_",grid_size,"m.shp"),delete_layer = TRUE)
+
+
+
 strata_poly_long_filtered<-strata_poly_long %>%
   mutate(indicator_val=ifelse(pts_per_grid<=3,NA,indicator_val) %>% as.numeric)
+
+strata_poly_long_filtered %>%
+  filter(indicator=="I.HEALTH.indhelp_atleast.INDVHH.yes") %>%
+  ggplot(aes(x=indicator_val))+
+  geom_histogram(bins=100)
 
 
 strata_poly_age_groups<-strata_poly_long_filtered %>%
@@ -193,9 +226,8 @@ windows();ggplot(strata_poly_age_groups %>% filter(!is.na(indicator_val)),
   ggplot2::facet_wrap(facets = ~indicator)
 
 
-# st_write(strata_poly_long,"outputs/gis/bgd_covid2020.gpkg",layer="msna_ref_wash_2019_indicators_300m", layer_options = 'OVERWRITE=YES', update = TRUE)
 
-# st_write(strata_poly_long, paste0("outputs/gis/bgd_covid2020_", grid_size,"m/" ,"bgd_covid2020_",grid_size,"m.shp"),delete_layer = TRUE)
+
 
 # dir.create("outputs/gis/bgd_covid2020_blocklevel")
  # st_write(strata_poly_long, "outputs/gis/bgd_covid2020_blocklevel/bgd_covid2020_blocklevel.shp")
