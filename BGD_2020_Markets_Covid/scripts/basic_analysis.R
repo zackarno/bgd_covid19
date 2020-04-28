@@ -58,7 +58,7 @@ col_not_to_analyze <- c("days_of_stock_of_rice", "restocking_time_of_rice", "day
                         "X_index","X","survey_date","survey_start","deviceid","instance_name", "informed_consent"
 )
 
-col_to_analyze <- data_for_analysis %>% select(-col_not_to_analyze)   %>% colnames()
+col_to_analyze <- data_for_analysis %>% select(-col_not_to_analyze) %>% dplyr::select(-contains("_other"))   %>% colnames()
 
 
 # analysis ----------------------------------------------------------------
@@ -80,7 +80,7 @@ dfsvy$variables$bananas_unit<- forcats::fct_expand(dfsvy$variables$bananas_unit,
 dfsvy$variables$soap_unit<- forcats::fct_expand(dfsvy$variables$soap_unit,c( "yes", "no"))
 dfsvy$variables$paracetamol_unit<- forcats::fct_expand(dfsvy$variables$paracetamol_unit,c( "yes", "no"))
 dfsvy$variables$sell_tarpaulin<- forcats::fct_expand(dfsvy$variables$sell_tarpaulin,c( "yes", "no"))
-dfsvy$variables$income_changed_to_4_weeks<- forcats::fct_expand(dfsvy$variables$income_changed_to_4_weeks,c( "it_decreased", "no"))
+dfsvy$variables$income_changed_to_4_weeks<- forcats::fct_expand(dfsvy$variables$income_changed_to_4_weeks,c( "it_decreased", "it_increased"))
 dfsvy$variables$customer_visits_change<- forcats::fct_expand(dfsvy$variables$customer_visits_change,c( "it_decreased", "no"))
 dfsvy$variables$round<- forcats::fct_expand(dfsvy$variables$round,c( "round", "no"))
 dfsvy$variables$i.restocking_time_of_lentils<- forcats::fct_expand(dfsvy$variables$i.restocking_time_of_lentils,c( "0-3 days", "no"))
@@ -97,6 +97,32 @@ dfsvy$variables$i.restocking_time_of_soap<- forcats::fct_expand(dfsvy$variables$
 
 basic_analysis_overall<-butteR::mean_proportion_table(design = dfsvy,list_of_variables = cols_to_analyze)
 
+
+
+
+# median ------------------------------------------------------------------
+
+median_col <- c("vendors_operational",
+                "price_of_1kg",
+                "cheapest_price_for_cooking_oil",
+                "cheapest_price_for_1kg_of_lentils",
+                "cheapest_price_for_0.5kg_of_leafy_greens",
+                "cheapest_price_for_1kg_of_bananas",
+                "cheapest_price_for_12__of_eggs",
+                "cheapest_price_for_1kg__of_fish",
+                "cheapest_price_for_100g_soap_bar_of_soap",
+                "cheapest_price_for_0_5l_of_bleachwashing_powder",
+                "cheapest_price_for_12_of_paracetamol",
+                "days_of_stock_of_paracetamol",
+                "restocking_time_of_paracetamol",
+                "cheapest_price_for_4mx5m_of_tarpaulin",
+                "vendors_colsed")
+
+for(i in median_col){
+  print(i)
+  col3 <- paste0("i.",i,"_median")
+  basic_analysis_overall[[col3]] <- median(data_for_analysis[[i]],na.rm = T)
+}
 # write csv ---------------------------------------------------------------
 
 if (create_csv =="yes"){

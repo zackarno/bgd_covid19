@@ -43,8 +43,8 @@ colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week",
 
 for(i in colnames_proportion){
   print(i)
-  col <- paste0("i.",i)
-  main_df[[col]] <- main_df[[i]]/main_df$vendors_operational
+  col2 <- paste0("i.",i)
+  main_df[[col2]] <- main_df[[i]]/main_df$vendors_operational
 }
 
 
