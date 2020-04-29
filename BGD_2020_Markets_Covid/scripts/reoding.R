@@ -14,7 +14,7 @@ library(naniar)
 
 # data_read ---------------------------------------------------------------
 
-main_df <- read.csv("inputs/02_cleaned_data/raw_data_with_round/raw_data_with_round.csv", stringsAsFactors = FALSE,
+main_df <- read.csv("inputs/02_cleaned_data/cleaned_data.csv", stringsAsFactors = FALSE,
                     na.strings = c("", " ", NA))
 
 
