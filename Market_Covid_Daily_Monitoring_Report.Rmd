@@ -43,15 +43,15 @@ source("BGD_2020_Markets_Covid/scripts/functions/get_na_response_rates.R")
 
 main <- read.csv("inputs/01_daily_data/main.csv", stringsAsFactors = FALSE, 
                    na.strings = c("", " ", NA))
-indv <- read.csv("inputs/01_daily_data/indv.csv", stringsAsFactors = FALSE, 
-                   na.strings = c("", " ", NA))
+# indv <- read.csv("inputs/01_daily_data/indv.csv", stringsAsFactors = FALSE, 
+                   # na.strings = c("", " ", NA))
 
 
 ############################date log##############################
 ######for first round only#####
 main$reported_date <- ymd(substr(main$survey_start,1,10))
 main$round<- "round 1"
-date_log_full<- main %>% select(c("X_index","X_uuid","reported_date","round"))
+date_log_full<- main %>% select(c("X_uuid","reported_date","round"))
 ###########################
 
 # date_log_old <-read.csv("outputs/01_data_logger/date_log.csv", 
@@ -81,10 +81,7 @@ drpbox_path_for_daily_data <-  "C:\\Users\\MEHEDI\\Dropbox\\REACH_BGD\\REACH\\On
 
 write.csv(main,paste0(drpbox_path_for_daily_data, str_replace_all(day_to_run,"-","_"),"_main_data.csv"))
 
-write.csv(indv,paste0(drpbox_path_for_daily_data, str_replace_all(day_to_run,"-","_"),"_indv_data.csv"))
-
-
-
+# write.csv(indv,paste0(drpbox_path_for_daily_data, str_replace_all(day_to_run,"-","_"),"_indv_data.csv"))
 
 }
 ``` 

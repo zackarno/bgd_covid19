@@ -20,7 +20,8 @@ main_df <- read.csv("inputs/02_cleaned_data/raw_data_with_round/raw_data_with_ro
 
 # recoding ----------------------------------------------------------------
 
-colnams <- c("days_of_stock_of_rice", "restocking_time_of_rice", "days_of_stock_of_cooking_oil",
+colnams <- c("days_of_stock_of_chicken","restocking_time_of_chicken",
+             "days_of_stock_of_rice", "restocking_time_of_rice", "days_of_stock_of_cooking_oil",
              "restocking_time_of_cooking_oil","days_of_stock_of_lentils", "restocking_time_of_lentils",
              "days_of_stock_of_leafy_greens","restocking_time_of_leafy_greens","days_of_stock_of_bananas",
              "restocking_time_of_bananas","days_of_stock_of_eggs","restocking_time_of_eggs",
@@ -36,7 +37,7 @@ for(i in colnams){
                                       if_else(main_df[[i]] > 7,"7+","error",NULL)))
   }
 
-colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week",
+colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week","chicken_sale_in_past_week",
                          "lentils_sale_in_past_week","leafy_greens_sale_in_past_week","bananas_sale_in_past_week",
                          "eggs_sale_in_past_week","fish_sale_in_past_week","soap_sale_in_past_week",
                          "washing_powder_sale_in_past_week","paracetamol_sale_in_past_week","tarpaulin_sale_in_past_week")
