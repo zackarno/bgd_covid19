@@ -74,13 +74,12 @@ cols_to_analyze<-data_for_analysis[col_to_analyze] %>% select(-ends_with("Other"
 
 
 dfsvy$variables$upazilla<- forcats::fct_expand(dfsvy$variables$upazilla,c( "ukhiya", "teknaf"))
-dfsvy$variables$rice_unit<- forcats::fct_expand(dfsvy$variables$rice_unit,c( "yes", "no"))
-dfsvy$variables$lentils_unit<- forcats::fct_expand(dfsvy$variables$lentils_unit,c( "yes", "no"))
-dfsvy$variables$leafy_greens_unit<- forcats::fct_expand(dfsvy$variables$leafy_greens_unit,c( "yes", "no"))
-dfsvy$variables$bananas_unit<- forcats::fct_expand(dfsvy$variables$bananas_unit,c( "yes", "no"))
-dfsvy$variables$soap_unit<- forcats::fct_expand(dfsvy$variables$soap_unit,c( "yes", "no"))
-dfsvy$variables$paracetamol_unit<- forcats::fct_expand(dfsvy$variables$paracetamol_unit,c( "yes", "no"))
-dfsvy$variables$sell_tarpaulin<- forcats::fct_expand(dfsvy$variables$sell_tarpaulin,c( "yes", "no"))
+cols_to_refactor_yn<- c("rice_unit" , "lentils_unit" , "leafy_greens_unit" ,"bananas_unit"," paracetamol_unit" , "soap_unit","sell_tarpaulin")
+dfsvy$variables<-dfsvy$variables %>%
+    mutate_at(.vars=cols_to_refactor_yn, .fun=forcats::fct_expand(.,c("yes","no"))
+
+
+
 dfsvy$variables$income_changed_to_4_weeks<- forcats::fct_expand(dfsvy$variables$income_changed_to_4_weeks,c( "it_decreased", "it_increased"))
 dfsvy$variables$customer_visits_change<- forcats::fct_expand(dfsvy$variables$customer_visits_change,c( "it_decreased", "no"))
 dfsvy$variables$round<- forcats::fct_expand(dfsvy$variables$round,c( "round", "no"))
@@ -131,4 +130,3 @@ if (create_csv =="yes"){
   output_location <- "outputs/02_butter_analysis/"
   write.csv(basic_analysis_overall,paste0(output_location,str_replace_all(Sys.Date(),"-","_"),"_basic_analysis_overall.csv"))
   }
-
