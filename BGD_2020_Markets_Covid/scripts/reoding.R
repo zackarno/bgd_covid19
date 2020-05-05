@@ -32,9 +32,9 @@ colnams <- c("days_of_stock_of_chicken","restocking_time_of_chicken",
 for(i in colnams){
     print(i)
     col <- paste0("i.",i)
-    main_df[[col]] <- if_else(main_df[[i]] %in% 0:3,"0-3 days",
-                              if_else(main_df[[i]] %in% 4:7, "4-7 days",
-                                      if_else(main_df[[i]] > 7,"7+","error",NULL)))
+    main_df[[col]] <- if_else(main_df[[i]] %in% 0:3,"0_3_days",
+                              if_else(main_df[[i]] %in% 4:7, "4_7_days",
+                                      if_else(main_df[[i]] > 7,"7_and_more","error",NULL)))
   }
 
 colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week","chicken_sale_in_past_week",

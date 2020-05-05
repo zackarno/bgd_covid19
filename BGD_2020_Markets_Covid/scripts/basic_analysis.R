@@ -12,12 +12,6 @@ library(survey)
 library(readxl)
 library(AMR)
 
-koboquest <- list.files("scrap/koboquest/R",full.names = T)
-
-for (i in koboquest ){
-  source(i)
-}
-
 create_csv <- c("yes","no")[1]
 
 # data_read ---------------------------------------------------------------
@@ -32,16 +26,7 @@ analysis_indicator <-  read.csv("inputs/dap/Analysis_indicators.csv", stringsAsF
 
 data_for_analysis <- cleaned_df
 
-assess_survey<- readxl::read_xls("inputs/03_tool/BGD_covid_19_market_monitoring.xls",sheet = "survey")
-assess_choices<-readxl::read_xls("inputs/03_tool/BGD_covid_19_market_monitoring.xls",sheet = "choices")
 
-
-assessment<-load_questionnaire(data = data_for_analysis,questions = assess_survey,
-                               choices = assess_choices,choices.label.column.to.use = "label::english")
-
-# main_df_colnames<- main_df %>% colnames()
-# analysis_indicator_2 <- analysis_indicator %>% dplyr::mutate(
-                         # colum =analysis_indicator$column.header %in% main_df_colnames)
 col_not_to_analyze <- c("days_of_stock_of_rice", "restocking_time_of_rice", "days_of_stock_of_cooking_oil",
                         "restocking_time_of_cooking_oil", "days_of_stock_of_lentils",
                         "days_of_stock_of_chicken","restocking_time_of_chicken",
@@ -64,7 +49,7 @@ col_to_analyze <- data_for_analysis %>% select(-col_not_to_analyze) %>% dplyr::s
 df_strata <- "upazilla"
 dfsvy<-svydesign(ids = ~1,strata = formula(paste0("~",df_strata)),data = data_for_analysis)
 
-dfsvy$variables<- butteR::questionnaire_factorize_categorical(data = dfsvy$variables,questionnaire = assessment,return_full_data = T)
+# dfsvy$variables<- butteR::questionnaire_factorize_categorical(data = dfsvy$variables,questionnaire = assessment,return_full_data = T)
 
 is_not_empty<-function(x){ all(is.na(x))==FALSE}
 cols_to_analyze<-data_for_analysis[col_to_analyze] %>% select(-ends_with("Other"), -ends_with(".other")) %>%
@@ -84,7 +69,6 @@ dfsvy$variables<-dfsvy$variables %>%
 
 dfsvy$variables$income_changed_to_4_weeks<- forcats::fct_expand(dfsvy$variables$income_changed_to_4_weeks,c( "it_decreased", "it_increased","it_stayed_the_same","dontknow"))
 dfsvy$variables$customer_visits_change<- forcats::fct_expand(dfsvy$variables$customer_visits_change,c( "it_decreased", "it_increased","it_stayed_the_same","dontknow"))
-# dfsvy$variables$round<- forcats::fct_expand(dfsvy$variables$round,c( "round", "no"))
 
 cols_to_times <- c("i.restocking_time_of_lentils","i.days_of_stock_of_leafy_greens",
                    "i.restocking_time_of_bananas","i.days_of_stock_of_bananas",
@@ -93,13 +77,12 @@ cols_to_times <- c("i.restocking_time_of_lentils","i.days_of_stock_of_leafy_gree
                    "i.restocking_time_of_chicken")
 
 dfsvy$variables<-dfsvy$variables %>%
-  mutate_at(.vars=cols_to_times, .funs=forcats::fct_expand,c("0-3 days","4-7 days","7+")
+  mutate_at(.vars=cols_to_times, .funs=forcats::fct_expand,c("0_3_days","4_7_days","7_and_more")
   )
 
 # basic analysis ----------------------------------------------------------
 
 basic_analysis_overall<-butteR::mean_proportion_table(design = dfsvy,list_of_variables = cols_to_analyze)
-
 
 
 
@@ -127,6 +110,27 @@ for(i in median_col){
   col3 <- paste0("i.",i,"_median")
   basic_analysis_overall[[col3]] <- median(data_for_analysis[[i]],na.rm = T)
 }
+
+
+# reordering (need to be adjusted once the tool is updated)--------------------------------------------------------------
+
+# cols_order <- read.csv("inputs/dap/dataset_arrage.csv") %>%  colnames()
+# cols_order <- cols_order %>% str_replace_all("0.3.days","0_3_days")
+# cols_order <- cols_order %>% str_replace_all("4.7.days","4_7_days")
+#
+#
+# cols_order <- cols_order %>% as.data.frame()
+# cols_order<- cols_order %>% dplyr::filter(. != "customer_visits_change.no")
+# cols_order <- cols_order$. %>% dput
+#
+# # cols_or <- basic_analysis_overall %>% colnames()
+# #
+# # cols_oder1 <- cols_order %>% dplyr::mutate(
+# #   t = cols_order$. %in% cols_or
+# # )
+#
+# basic_analysis_overall_2 <- basic_analysis_overall %>% dplyr::select(cols_order)
+
 # write csv ---------------------------------------------------------------
 
 if (create_csv =="yes"){
