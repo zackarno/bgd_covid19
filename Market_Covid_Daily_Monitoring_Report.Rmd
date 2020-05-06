@@ -1,0 +1,174 @@
+---
+title: "Market Monitoring Daily Data Report"
+author: "MH Khan"
+date: "`r format(Sys.time(), '%d %B, %Y, %H:%M ')`"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    theme: paper
+---
+
+
+```{r include=FALSE, warning = FALSE, message=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE,
+                      message=FALSE,
+                      warning = FALSE)
+
+library(dplyr)
+library(sf)
+library(srvyr)
+library(anytime)
+library(readr)
+library(stringr)
+library(ggplot2)
+library(lubridate)
+library(rgdal)
+library(kableExtra)
+library(gsubfn)
+library(stringi)
+library(data.table)
+library(sf)
+library(tmap)
+library(butteR)
+library(AMR)
+source("BGD_2020_Markets_Covid/scripts/functions/GIS_Project_Functions.R")
+source("BGD_2020_Markets_Covid/scripts/functions/Load_Audit.R")
+source("BGD_2020_Markets_Covid/scripts/functions/get_na_response_rates.R")
+
+
+
+#load data
+
+main <- read.csv("inputs/01_daily_data/main.csv", stringsAsFactors = FALSE, 
+                   na.strings = c("", " ", NA))
+# indv <- read.csv("inputs/01_daily_data/indv.csv", stringsAsFactors = FALSE, 
+                   # na.strings = c("", " ", NA))
+
+
+############################date log##############################
+######for first round only#####
+main$reported_date <- ymd(substr(main$survey_start,1,10))
+main$round<- "round 1"
+date_log_full<- main %>% select(c("X_uuid","reported_date","round"))
+###########################
+
+# date_log_old <-read.csv("outputs/01_data_logger/date_log.csv", 
+                        # stringsAsFactors = FALSE,na.strings = c("", " ", NA)) %>% select("X_uuid","round")
+
+# main <- main %>% dplyr::left_join(date_log_old,by = "X_uuid")
+
+# main <- main %>% dplyr::mutate(
+  # round = if_else(is.na(round),round_text,main$round)
+# ) 
+
+# main$reported_date <- ymd(substr(main$survey_start,1,10))
+# date_log_full<- main %>% select(c("X_index","X_uuid","reported_date","round"))  
+  
+  
+if(write_csv_output=="yes"){
+  date_log_path <- "outputs/01_data_logger/date_log.csv"
+date_log_track <- paste0("outputs/01_data_logger/",str_replace_all(day_to_run,"-","_"),"_date_logger.csv") 
+write.csv(date_log_full,date_log_path,row.names=FALSE)
+file.copy(from = date_log_path,to = date_log_track,overwrite = T)
+
+####write_data_for_recoding_with_round
+write.csv(main, "inputs/02_cleaned_data/raw_data_with_round/raw_data_with_round.csv")
+
+###write_daily_data_to_dropbox
+drpbox_path_for_daily_data <-  "C:\\Users\\MEHEDI\\Dropbox\\REACH_BGD\\REACH\\Ongoing\\COVID-19\\Market Monitoring Initiative (camps)\\Daily monitoring\\01_daily_data/"
+
+write.csv(main,paste0(drpbox_path_for_daily_data, str_replace_all(day_to_run,"-","_"),"_main_data.csv"))
+
+# write.csv(indv,paste0(drpbox_path_for_daily_data, str_replace_all(day_to_run,"-","_"),"_indv_data.csv"))
+
+}
+``` 
+
+## Constraint 200
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+
+cols_less_than_200<-  c("cheapest_price_for_12__of_eggs",
+                         "vendors_colsed")
+
+grt_thn_200 <- main %>% dplyr::filter_at(vars(cols_less_than_200), all_vars(. > 200)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_200))
+
+
+grt_thn_200 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >200 which might be a mistake because that values should not be more than 200") %>% kable_styling(position = "center")
+
+
+```
+
+## Constraint 100
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+ cols_less_than_100<- c( "ki_code", "price_of_1kg", "days_of_stock_of_rice",
+                         "cheapest_price_for_cooking_oil",
+                         "days_of_stock_of_cooking_oil",
+                         "cheapest_price_for_1kg_of_lentils",
+                         "days_of_stock_of_lentils",
+                         "cheapest_price_for_1kg_of_bananas",
+                         "cheapest_price_for_1kg__of_fish",
+                         "days_of_stock_of_soap",
+                         "cheapest_price_for_0_5l_of_bleachwashing_powder",
+                         "days_of_stock_of_washing_powder")
+
+grt_thn_100 <- main %>% dplyr::filter_at(vars(cols_less_than_100), all_vars(. > 100)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_100))
+
+grt_thn_100 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >100 which might be a mistake because that values should not be more than 100") %>% kable_styling(position = "center")
+```
+
+
+## Constraint 50
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+ cols_less_than_50 <- "cheapest_price_for_100g_soap_bar_of_soap"
+
+grt_thn_50 <- main %>% dplyr::filter_at(vars(cols_less_than_50), all_vars(. > 50)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_50))
+
+grt_thn_50 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >50 which might be a mistake because that values should not be more than 50") %>% kable_styling(position = "center")
+```
+
+
+## Constraint 30
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+ cols_less_than_30 <- c ("restocking_time_of_rice",
+                         "restocking_time_of_cooking_oil",
+                         "restocking_time_of_lentils",
+                         "cheapest_price_for_0.5kg_of_leafy_greens",
+                         "restocking_time_of_leafy_greens",
+                         "restocking_time_of_bananas",
+                         "days_of_stock_of_eggs",
+                         "restocking_time_of_eggs",
+                         "restocking_time_of_fish",
+                         "restocking_time_of_soap",
+                         "restocking_time_of_washing_powder")
+
+grt_thn_30 <- main %>% dplyr::filter_at(vars(cols_less_than_30), all_vars(. > 30)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_30))
+
+grt_thn_30 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >30 which might be a mistake because that values should not be more than 30") %>% kable_styling(position = "center")
+
+```
+
+
+## Constraint 14
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+ cols_less_than_14 <- "days_of_stock_of_bananas"
+grt_thn_14 <- main %>% dplyr::filter_at(vars(cols_less_than_14), all_vars(. > 14)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_14))
+
+grt_thn_14 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >14 which might be a mistake because that values should not be more than 14") %>% kable_styling(position = "center")
+
+```
+
+
+## Constraint 7
+```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
+ cols_less_than_7 <- c("days_of_stock_of_leafy_greens",
+                       "days_of_stock_of_fish" )
+
+grt_thn_7 <- main %>% dplyr::filter_at(vars(cols_less_than_7), all_vars(. > 7)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_7))
+
+grt_thn_7 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some enumerators who have recorded value >07 which might be a mistake because that values should not be more than 07") %>% kable_styling(position = "center")
+
+```
+
+

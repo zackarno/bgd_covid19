@@ -1,0 +1,121 @@
+column header,Indicator,Analysis
+vendors_operational,Number of days operational,"Mean, median"
+price_of_1kg,Cheapest price of rice per kg,"Mean, median"
+rice_sale_in_past_week,Days rice for sale,days for sale / days vendor open
+days_of_stock_of_rice,Days stock of rice,"0-3 days, 4-7 days, 7+"
+restocking_time_of_rice,Rice restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_cooking_oil,Cheapest price of cooking oil,"Mean, median"
+oil_sale_in_past_week,Days cooking oil for sale,days for sale / days vendor open
+days_of_stock_of_cooking_oil,Days of stock cooking oil,"0-3 days, 4-7 days, 7+"
+restocking_time_of_cooking_oil,Cooking oil restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_1kg_of_lentils,Cheapest price of lentils,"Mean, median"
+lentils_sale_in_past_week,Days lentils for sale,days for sale / days vendor open
+days_of_stock_of_lentils,Days of stock of lentils,"0-3 days, 4-7 days, 7+"
+restocking_time_of_lentils,Lentils restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_0.5kg_of_leafy_greens,Average cheapest price of leafy greens,"Mean, median"
+leafy_greens_sale_in_past_week,Average % of days leafy greens for sale,days for sale / days vendor open
+days_of_stock_of_leafy_greens,Average number of days leafy greens stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_leafy_greens,Average leafy greens restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_1kg_of_bananas,Average cheapest price of bananas,"Mean, median"
+bananas_sale_in_past_week,Average % of days bananas for sale,days for sale / days vendor open
+days_of_stock_of_bananas,Average number of days bananas stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_bananas,Average bananas restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_12__of_eggs,Average cheapest price of eggs,"Mean, median"
+eggs_sale_in_past_week,Average % of days eggs for sale,days for sale / days vendor open
+days_of_stock_of_eggs,Average number of days eggs stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_eggs,Average eggs restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_1kg__of_fish,Average cheapest price of fresh fish,"Mean, median"
+fish_sale_in_past_week,Average % of days fresh fish for sale,days for sale / days vendor open
+days_of_stock_of_fish,Average number of days fresh fish stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_fish,Average fresh fish restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_100g_soap_bar_of_soap,Average cheapest price of soap,"Mean, median"
+soap_sale_in_past_week,Average % of days soap for sale,days for sale / days vendor open
+days_of_stock_of_soap,Average number of days soap stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_soap,Average soap restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_0_5l_of_bleachwashing_powder,Average cheapest price of washing powder,"Mean, median"
+washing_powder_sale_in_past_week,Average % of days washing powder for sale,days for sale / days vendor open
+days_of_stock_of_washing_powder,Average number of days washing powder stock available?,"0-3 days, 4-7 days, 7+"
+restocking_time_of_washing_powder,Average washing powder restocking timeline,"0-3 days, 4-7 days, 7+"
+cheapest_price_for_12_of_paracetamol,Average cheapest price of paracetamol,"Mean, median"
+paracetamol_sale_in_past_week,Average % of days paracetamol for sale,days for sale / days vendor open
+days_of_stock_of_paracetamol,Average number of days paracetamol stock available?,"Mean, median"
+restocking_time_of_paracetamol,Average paracetamol restocking timeline,"Mean, median"
+cheapest_price_for_4mx5m_of_tarpaulin,Average cheapest price of tarpaulin,"Mean, median"
+tarpaulin_sale_in_past_week,Average % of days tarpaulin for sale,days for sale / days vendor open
+days_of_stock_of_tarpaulin,Average number of days tarpaulin stock available?,Mean
+restocking_time_of_tarpaulin,Average tarpaulin restocking timeline,Mean
+fresh_food_items,% Fresh food supplier,"% inside camp, % outside camp, % other"
+non_fresh_food_items,% Non-fresh food supplier,"% inside camp, % outside camp, % other"
+non_fresh_food_items_1,% Hygiene NFI supplier,"% inside camp, % outside camp, % other"
+non_fresh_food_items_2,% Other NFI supplier,"% inside camp, % outside camp, % other"
+assistance_items,% reselling assistance items,"% yes, % no"
+assistance_items_if_yes.food_assistance_items,% reselling food assistance items,%
+assistance_items_if_yes.clothing,% reselling NFIs assistance items,%
+assistance_items_if_yes.hygiene_nfis,% reselling hygiene NFIs assistance items,%
+assistance_items_if_yes.shelter_items,% reselling shelter assistance items,%
+assistance_items_if_yes.other,% reselling other assistance items,%
+faced_any_difficulties,% facing difficulties in restocking,%
+difficulties_faced_in_replenishing.i_cannot_restock,Restocking difficulty - I cannot restock due to the closure of the borders,%
+difficulties_faced_in_replenishing.not_allowed_my_domestic_suppliers,Restocking difficulty - The closure of the borders has not allowed my domestic suppliers to resupply their imported products,%
+difficulties_faced_in_replenishing.stop_their_production,Restocking difficulty - Suppliers have had to stop their production,%
+difficulties_faced_in_replenishing.suppliers_no_longer,Restocking difficulty - Suppliers no longer have the products I need,%
+difficulties_faced_in_replenishing.unable_to_leave,Restocking difficulty - I am unable to leave the camp to resupply,%
+difficulties_faced_in_replenishing.the_time_between,Restocking difficulty - The time between order and delivery is now longer,%
+difficulties_faced_in_replenishing.transport_of_supplies_between,"Restocking difficulty - Domestically, transport of supplies between districts has slowed down due to the COVID-19 crisis",%
+difficulties_faced_in_replenishing.no_longer_access_to_credit,Restocking difficulty - My supplier no longer gives me access to credit,%
+difficulties_faced_in_replenishing.don.t_have_enough_money,Restocking difficulty - I don’t have enough money to restock,%
+difficulties_faced_in_replenishing.shortage_of_carriers,Restocking difficulty - There is a shortage of carriers to transport supplies,%
+difficulties_faced_in_replenishing.wholesalers_no_longer_visit_us,Restocking difficulty - The commercial agents of the companies and wholesalers no longer visit us,%
+difficulties_faced_in_replenishing.dontknow,Restocking difficulty - I don’t know,%
+difficulties_faced_in_replenishing.other,Restocking difficulty - Other,%
+items_are_most_affected.rice,Items affected - Rice,%
+items_are_most_affected.oil,Items affected - Oil,%
+items_are_most_affected.lentils,Items affected - eggs,%
+items_are_most_affected.leafy_greens,Items affected - Leafy_Greens,%
+items_are_most_affected.bananas,Items affected - Bananas,%
+items_are_most_affected.eggs,Items affected - Eggs,%
+items_are_most_affected.fish,Items affected - fresh fish,%
+items_are_most_affected.soap,Items affected - Soap,%
+items_are_most_affected.powder,Items affected - washing powder,%
+items_are_most_affected.paracetamol,Items affected - Paracetamol,%
+items_are_most_affected.tarpaulin,Items affected - Tarpaulin,%
+vendors_colsed,Average number of vendors closed in past 4 weeks,"Mean, median"
+prevent_the_spread_of_COVID19.gel,Measures - Use of antibacterial gel,%
+prevent_the_spread_of_COVID19.gloves,Measures - Use of gloves,%
+prevent_the_spread_of_COVID19.facemasks,Measures - Use of facemasks,%
+prevent_the_spread_of_COVID19.limiting_the_number_people,Measures - Limiting the number of people in the premises at any one time,%
+prevent_the_spread_of_COVID19.handwashing_facilities,Measures - Providing handwashing facilities for customers,%
+prevent_the_spread_of_COVID19.social_distancing,Measures - Social distancing in queues,%
+prevent_the_spread_of_COVID19.implement_a_fence,Measures - Implement a fence or physical barrier through which orders are taken to prevent customers from entering the store,%
+prevent_the_spread_of_COVID19.priority_care,Measures - Priority care for older adults,%
+prevent_the_spread_of_COVID19.none,Measures - None,%
+prevent_the_spread_of_COVID19.other,Measures - Other (please specify),%
+witnessed_safety_or_security.no_problems,Security - No security problems,%
+witnessed_safety_or_security.theft_of_items,Security - Theft of items during storage (unarmed),%
+witnessed_safety_or_security.risk_of_theft,Security - Risk of theft of cash (unarmed),%
+witnessed_safety_or_security.risk_of_theft_of_items_business_hours,Security - Risk of theft of items during business hours (unarmed),%
+witnessed_safety_or_security.armed_robbery,Security - Armed robbery,%
+witnessed_safety_or_security.forced_closure,Security - Forced closure of shop or market by authorities,%
+income_changed_to_4_weeks,Income change,"% increased, % decreased, % stayed the same"
+customer_visits_change,Customer numbers,"% increased, % decreased, % stayed the same"
+stockpiling_behaviors,Witness stockpiling - no,"% yes, % no"
+community_members_accessing_markets.no_cash,Customer barriers - Community members have no cash / low purchasing power,%
+community_members_accessing_markets.avoiding_markets,Customer barriers - Avoiding markets due to fear of COVID-19,%
+community_members_accessing_markets.due_to_aggressive,Customer barriers - Avoiding markets due to aggressive / hoarding behaviours taking place in markets,%
+community_members_accessing_markets.due_to_increased_military,Customer barriers - Avoiding markets due to increased military / police presence,%
+community_members_accessing_markets.long_waiting_times,Customer barriers - Long waiting times / Long queues at markets,%
+community_members_accessing_markets.fear_of_checkpoints,Customer barriers - fear of checkpoints,%
+community_members_accessing_markets.community_member,Customer barriers - Community member does not have proper authorization / permission for movement,%
+community_members_accessing_markets.challenges,Customer barriers - Challenges due to restricted opening hours,%
+community_members_accessing_markets.no_issues,Customer barriers - no issues,%
+community_members_accessing_markets.not_sure,Customer barriers - not sure,%
+community_members_accessing_markets.other,Customer barriers - Other (specify),%
+community_experiencing_more_barriers.have_equal_access,"Groups - No, all have equal access",%
+community_experiencing_more_barriers.men,Groups - Men,%
+community_experiencing_more_barriers.women,Groups - Women,%
+community_experiencing_more_barriers.children,Groups - Children,%
+community_experiencing_more_barriers.elderly,Groups - Elderly,%
+community_experiencing_more_barriers.with_disabilities,Groups - Persons with disabilities,%
+community_experiencing_more_barriers.medical_conditions,Groups - Persons with medical conditions,%
+community_experiencing_more_barriers.not_sure,Groups - Not sure,%
+community_experiencing_more_barriers.other,Groups - Other (Specify),%
