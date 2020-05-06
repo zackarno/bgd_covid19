@@ -45,11 +45,15 @@ vignettes/*.pdf
 /inputs/inputs_hq/*
 !/inputs/inputs_hq/.gitkeep
 
+BGD_2020_Markets_Covid/inputs/*
 
 /outputs/*
 !/outputs/gis
 outputs/gis/*
 !/outputs/gis/.gitkeep
+BGD_2020_Markets_Covid/inputs/*
+BGD_2020_Markets_Covid/supporting_docs/*
+
 
 
 
