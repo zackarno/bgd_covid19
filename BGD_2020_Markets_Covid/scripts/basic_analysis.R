@@ -100,10 +100,14 @@ median_col <- c("vendors_operational",
                 "cheapest_price_for_100g_soap_bar_of_soap",
                 "cheapest_price_for_0_5l_of_bleachwashing_powder",
                 "cheapest_price_for_12_of_paracetamol",
-                "days_of_stock_of_paracetamol",
                 "restocking_time_of_paracetamol",
                 "cheapest_price_for_4mx5m_of_tarpaulin",
-                "vendors_colsed")
+                "vendors_colsed",
+                "days_of_stock_of_rice", "days_of_stock_of_cooking_oil", "days_of_stock_of_lentils",
+                "days_of_stock_of_leafy_greens", "days_of_stock_of_bananas",
+                "days_of_stock_of_eggs", "days_of_stock_of_fish", "days_of_stock_of_soap",
+                "days_of_stock_of_washing_powder", "days_of_stock_of_paracetamol",
+                "days_of_stock_of_chicken", "days_of_stock_of_tarpaulin")
 
 for(i in median_col){
   print(i)
