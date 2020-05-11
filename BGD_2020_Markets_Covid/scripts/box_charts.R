@@ -27,7 +27,7 @@ outputfolder_box <-"outputs/03_charts/01_box/"
 
 # read_data ---------------------------------------------------------------
 
-raw_df <- read.csv("inputs/clean_data/2020_05_10_reach_bgd_market_assessment_cleaned_r2.csv", stringsAsFactors = FALSE,
+raw_df <- read.csv("inputs/02_cleaned_data/recoded_data/2020_05_10_reach_bgd_market_assessment_cleaned_r2.csv", stringsAsFactors = FALSE,
                    na.strings = c("", " ", NA))
 # date_log <- read.csv("outputs/01_data_logger/date_log.csv", stringsAsFactors = FALSE,
 #                      na.strings = c("", " ", NA)) %>% select(-"reported_date")
