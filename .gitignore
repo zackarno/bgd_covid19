@@ -53,6 +53,7 @@ outputs/gis/*
 !/outputs/gis/.gitkeep
 BGD_2020_Markets_Covid/inputs/*
 BGD_2020_Markets_Covid/supporting_docs/*
+BGD_2020_Markets_Covid/outputs/datamerge/BGD_MMI_Factsheet_datamerge.indd
 
 
 
