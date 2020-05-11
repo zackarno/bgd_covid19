@@ -27,6 +27,9 @@ refactor_to_xlsform<-function(data,kobo_survey,kobo_choices ,label_column = "lab
   return(data)
 
 }
+
+
+
 current_round$days_of_stock_of_dry_fish
 current_round$cheapest_price_for_12__of_eggs
 name_changes<-tibble::tibble(round_1=c("sell_fish",
@@ -110,29 +113,36 @@ basic_analysis_overall<-butteR::mean_proportion_table(design = dfsvy,list_of_var
 
 # median ------------------------------------------------------------------
 
-median_col <- c("vendors_operational",
-                "price_of_1kg",
-                "cheapest_price_for_12_of_chicken",
+# median_col <- c("vendors_operational",
+                # "price_of_1kg",
+food_prices<-c("cheapest_price_for_12_of_chicken",
                 "cheapest_price_for_cooking_oil",
                 "cheapest_price_for_1kg_of_lentils",
                 "cheapest_price_for_0.5kg_of_leafy_greens",
                 "cheapest_price_for_1kg_of_bananas",
                 "cheapest_price_for_12__of_eggs",
-                "cheapest_price_for_1kg__of_fish",
-                "cheapest_price_for_100g_soap_bar_of_soap",
+                "cheapest_price_for_1kg__of_fish")
+nfi_prices<-c("cheapest_price_for_100g_soap_bar_of_soap",
                 "cheapest_price_for_0_5l_of_bleachwashing_powder",
                 "cheapest_price_for_12_of_paracetamol",
-                "restocking_time_of_paracetamol",
-                "cheapest_price_for_4mx5m_of_tarpaulin",
+                "cheapest_price_for_4mx5m_of_tarpaulin")
+
+# "restocking_time_of_paracetamol",
                 # "vendors_colsed",
-                "days_of_stock_of_rice", "days_of_stock_of_cooking_oil", "days_of_stock_of_lentils",
-                "days_of_stock_of_leafy_greens", "days_of_stock_of_bananas",
-                "days_of_stock_of_eggs", "days_of_stock_of_fish", "days_of_stock_of_soap",
-                "days_of_stock_of_washing_powder", "days_of_stock_of_paracetamol",
-                "days_of_stock_of_chicken", "days_of_stock_of_tarpaulin")
-median_col_df<-data.frame(r1_median=median_col) %>%
-  left_join(name_changes, by=c("r1_median"="round_1")) %>%
-  mutate(r2_median=ifelse(is.na(round_2), r1_median, round_2)) %>% select(-round_2)
+                # "days_of_stock_of_rice", "days_of_stock_of_cooking_oil", "days_of_stock_of_lentils",
+                # "days_of_stock_of_leafy_greens", "days_of_stock_of_bananas",
+                # "days_of_stock_of_eggs", "days_of_stock_of_fish", "days_of_stock_of_soap",
+                # "days_of_stock_of_washing_powder", "days_of_stock_of_paracetamol",
+                # "days_of_stock_of_chicken", "days_of_stock_of_tarpaulin")
+
+median_df<-data.frame()
+item_price_cols<-tibble::tibble(items=c(food_prices,nfi_prices),
+                                item_type=ifelse(items %in% food_prices,"food","nfi"))
+
+
+item_price_cols_fixed<-item_price_cols %>%
+  left_join(name_changes, by=c("items"="round_1")) %>%
+  mutate(round_2_items=ifelse(is.na(round_2),items, round_2)) %>% select(-round_2)
 
 prev_round$cheapest_price_for_12_of_chicken
 ?setNames
@@ -146,7 +156,7 @@ current_round$cheapest_price_for_4mx5m_of_chicken
 
 # loop --------------------------------------------------------------------
 
-
+current_round %>% select(item_price_cols_fixed$round_2_items)
 current_round %>%
   mutate_at(.vars = median_col, median,na.rm=T) %>%
   select(median_col)
