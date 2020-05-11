@@ -34,8 +34,6 @@ library(tmap)
 library(butteR)
 library(AMR)
 source("BGD_2020_Markets_Covid/scripts/functions/GIS_Project_Functions.R")
-source("BGD_2020_Markets_Covid/scripts/functions/Load_Audit.R")
-source("BGD_2020_Markets_Covid/scripts/functions/get_na_response_rates.R")
 
 
 
@@ -49,22 +47,26 @@ main <- read.csv("inputs/01_daily_data/main.csv", stringsAsFactors = FALSE,
 
 ############################date log##############################
 ######for first round only#####
-main$reported_date <- ymd(substr(main$survey_start,1,10))
-main$round<- "round 1"
-date_log_full<- main %>% select(c("X_uuid","reported_date","round"))
+# main$reported_date <- ymd(substr(main$survey_start,1,10))
+# main$round<- "round 1"
+# date_log_full<- main %>% select(c("X_uuid","reported_date","round"))
 ###########################
 
-# date_log_old <-read.csv("outputs/01_data_logger/date_log.csv", 
-                        # stringsAsFactors = FALSE,na.strings = c("", " ", NA)) %>% select("X_uuid","round")
+date_log_old <-read.csv("outputs/01_data_logger/date_log.csv",
+                        stringsAsFactors = FALSE,na.strings = c("", " ", NA)) %>% select("X_uuid","round","reported_date")
 
-# main <- main %>% dplyr::left_join(date_log_old,by = "X_uuid")
+main <- main %>% dplyr::full_join(date_log_old,by = "X_uuid")
 
-# main <- main %>% dplyr::mutate(
-  # round = if_else(is.na(round),round_text,main$round)
-# ) 
+main <- main %>% dplyr::mutate(
+  round = if_else(is.na(round),round_text,main$round)
+)
+
+main <- main %>% dplyr::mutate(
+  reported_date = if_else(is.na(main$reported_date),ymd(substr(main$survey_start,1,10)),dmy(main$reported_date))
+)
 
 # main$reported_date <- ymd(substr(main$survey_start,1,10))
-# date_log_full<- main %>% select(c("X_index","X_uuid","reported_date","round"))  
+date_log_full<- main %>% select(c("X_index","X_uuid","reported_date","round"))
   
   
 if(write_csv_output=="yes"){
@@ -108,7 +110,7 @@ grt_thn_200 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some 
                          "cheapest_price_for_1kg_of_lentils",
                          "days_of_stock_of_lentils",
                          "cheapest_price_for_1kg_of_bananas",
-                         "cheapest_price_for_1kg__of_fish",
+                         "cheapest_price_for_1kg__of_dry_fish",
                          "days_of_stock_of_soap",
                          "cheapest_price_for_0_5l_of_bleachwashing_powder",
                          "days_of_stock_of_washing_powder")
@@ -121,7 +123,8 @@ grt_thn_100 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some 
 
 ## Constraint 50
 ```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
- cols_less_than_50 <- "cheapest_price_for_100g_soap_bar_of_soap"
+cols_less_than_50 <- "cheapest_price_for_100g_soap_bar_of_soap"
+
 
 grt_thn_50 <- main %>% dplyr::filter_at(vars(cols_less_than_50), all_vars(. > 50)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_50))
 
@@ -139,7 +142,7 @@ grt_thn_50 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some e
                          "restocking_time_of_bananas",
                          "days_of_stock_of_eggs",
                          "restocking_time_of_eggs",
-                         "restocking_time_of_fish",
+                         "restocking_time_of_dry_fish",
                          "restocking_time_of_soap",
                          "restocking_time_of_washing_powder")
 
@@ -163,7 +166,7 @@ grt_thn_14 %>% kable( longtable = T, booktabs = T, linesep = "",caption= "Some e
 ## Constraint 7
 ```{r eval=TRUE, echo=FALSE, results='asis', warning=FALSE, messages=FALSE}
  cols_less_than_7 <- c("days_of_stock_of_leafy_greens",
-                       "days_of_stock_of_fish" )
+                       "days_of_stock_of_dry_fish" )
 
 grt_thn_7 <- main %>% dplyr::filter_at(vars(cols_less_than_7), all_vars(. > 7)) %>% dplyr::select(c("X_uuid","enumerator_id",cols_less_than_7))
 

@@ -140,4 +140,5 @@ for(i in median_col){
 if (create_csv =="yes"){
   output_location <- "outputs/02_butter_analysis/"
   write.csv(basic_analysis_overall,paste0(output_location,str_replace_all(Sys.Date(),"-","_"),"_basic_analysis_overall.csv"))
+  write.csv(basic_analysis_overall,paste0(output_location,"basic_analysis_overall.csv"))
   }

@@ -11,6 +11,7 @@ library(stringr)
 library(AMR)
 library(naniar)
 
+round <- "r2"
 
 # data_read ---------------------------------------------------------------
 
@@ -25,7 +26,7 @@ colnams <- c("days_of_stock_of_chicken","restocking_time_of_chicken",
              "restocking_time_of_cooking_oil","days_of_stock_of_lentils", "restocking_time_of_lentils",
              "days_of_stock_of_leafy_greens","restocking_time_of_leafy_greens","days_of_stock_of_bananas",
              "restocking_time_of_bananas","days_of_stock_of_eggs","restocking_time_of_eggs",
-             "days_of_stock_of_fish", "restocking_time_of_fish", "days_of_stock_of_soap",
+             "days_of_stock_of_dry_fish", "restocking_time_of_dry_fish", "days_of_stock_of_soap",
              "restocking_time_of_soap", "days_of_stock_of_washing_powder", "restocking_time_of_washing_powder")
 
 
@@ -37,19 +38,20 @@ for(i in colnams){
                                       if_else(main_df[[i]] > 7,"7_and_more","error",NULL)))
   }
 
-colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week","chicken_sale_in_past_week",
-                         "lentils_sale_in_past_week","leafy_greens_sale_in_past_week","bananas_sale_in_past_week",
-                         "eggs_sale_in_past_week","fish_sale_in_past_week","soap_sale_in_past_week",
-                         "washing_powder_sale_in_past_week","paracetamol_sale_in_past_week","tarpaulin_sale_in_past_week")
-
-for(i in colnames_proportion){
-  print(i)
-  col2 <- paste0("i.",i)
-  main_df[[col2]] <- main_df[[i]]/main_df$vendors_operational
-}
+# colnames_proportion <- c("rice_sale_in_past_week","oil_sale_in_past_week","chicken_sale_in_past_week",
+#                          "lentils_sale_in_past_week","leafy_greens_sale_in_past_week","bananas_sale_in_past_week",
+#                          "eggs_sale_in_past_week","dry_fish_sale_in_past_week","soap_sale_in_past_week",
+#                          "washing_powder_sale_in_past_week","paracetamol_sale_in_past_week",
+#                          "tarpaulin_sale_in_past_week")
+#
+# for(i in colnames_proportion){
+#   print(i)
+#   col2 <- paste0("i.",i)
+#   main_df[[col2]] <- main_df[[i]]/main_df$vendors_operational
+# }
 
 
 # write_csv ---------------------------------------------------------------
 
-write.csv(main_df,"inputs/02_cleaned_data/market_assessment_recoding.csv")
+write.csv(main_df,paste0("inputs/02_cleaned_data/recoded_data/",str_replace_all(Sys.Date(),"-","_"),"_reach_bgd_market_assessment_cleaned_",round,".csv"))
 
