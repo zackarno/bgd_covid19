@@ -61,9 +61,9 @@ add_rowwise_nfi_food_medians<-function(df){
 
 
 percentage_pt_change<-function(x,y){
-  red_tri<-".\\triangles\\red_triangle.png"
-  green_tri<-".\\triangles\\green_triangle.png"
-  grey_tri<-".\\triangles\\grey_triangle.png"
+  red_tri<-".\\triangles\\black_triangle_up.png"
+  green_tri<-".\\triangles\\black_triangle_down.png"
+  grey_tri<-".\\triangles\\black_triangle_sideways.png"
   results<-list()
   x_minus_y<-(x-y)*100
   triangle<-x_minus_y %>%
