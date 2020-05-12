@@ -99,7 +99,7 @@ prev_analysis<-butteR::mean_proportion_table(design = dfsvy_prev,list_of_variabl
 
 
 page_3_fs<-percentage_pt_change(x = current_analysis, y=prev_analysis)
-page_3_fs_dm<-cbind(page_3_fs$percent,page_3_fs$triangle_cols)
+page_3_fs_dm<-bind_cols(page_3_fs$percent,page_3_fs$triangle_cols)
 
 dm_output<-list()
 dm_output[["p3_tables"]]<-page_3_fs_dm
@@ -136,7 +136,7 @@ for(i in 1: nrow(selling_affected_table)){
 
 }
 
-items_affected_binded<-do.call("cbind",items_affected_subset_list)
+items_affected_binded<-bind_cols(items_affected_subset_list)
 rank_table<-prepare_rank_table(items_affected_binded)
 items_most_affected_ranked<-datamerge_from_rank_table(rank_table = rank_table,xlsform_lookup = xls_lt,rank_n = 6)
 items_most_affected_ranked_labeled<-items_most_affected_ranked$wide %>% select(contains("_lab_"))
@@ -195,14 +195,16 @@ previous_round_median_prices<-prev_round_names_fix %>%
   select(item_prices_full)
 
 price_differences<-percent_diff_dm(x = current_round_median_prices,y=previous_round_median_prices)
-price_differences_dm<-cbind(price_differences$current_round,price_differences$percent_diff, price_differences$triangle)
+price_differences_dm<-bind_cols(price_differences$current_round,price_differences$percent_diff, price_differences$triangle)
 colnames(price_differences_dm)
 price_differences_dm %>% class()
 dm_output[["p1_table_price_differences"]]<-price_differences_dm
 
 
-datamerge_output_file<-do.call("cbind",dm_output)
- # datamerge_output_file %>% write.csv("BGD_2020_Markets_Covid/outputs/datamerge/datamerge_placeholders_12may2020.csv")
+# datamerge_output_file<-do.call("cbind",dm_output)
+datamerge_output_file<-bind_cols(dm_output)
+colnames(datamerge_output_file)
+datamerge_output_file %>% write.csv("BGD_2020_Markets_Covid/outputs/datamerge/datamerge_placeholders_12may2020.csv")
 
 
 
