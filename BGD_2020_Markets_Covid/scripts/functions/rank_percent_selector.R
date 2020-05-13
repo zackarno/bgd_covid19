@@ -98,7 +98,7 @@ return_top_sm<-function(df,
     result[["ranks_with_ties"]]<- rank_table
     result[["ranks_filtered"]]<-rank_table%>% filter(rank_last<=rank_n)
     result[["tied_records"]]<- tie_records
-    print(paste("top",rank_n, "in", sm,"were tied", sep = " "))
+    # print(paste("top",rank_n, "in", sm,"were tied", sep = " "))
     interactive_title<-paste0("You need to remove",number_records_gt_rank, "record(s)", "from the tie_records table")
     tie_break_remove <- select.list(tie_records$option,multiple = T, title = interactive_title)
 

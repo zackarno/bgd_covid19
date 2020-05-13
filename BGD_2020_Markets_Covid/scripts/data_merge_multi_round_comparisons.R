@@ -204,7 +204,7 @@ dm_output[["p1_table_price_differences"]]<-price_differences_dm
 # datamerge_output_file<-do.call("cbind",dm_output)
 datamerge_output_file<-bind_cols(dm_output)
 colnames(datamerge_output_file)
-datamerge_output_file %>% write.csv("BGD_2020_Markets_Covid/outputs/datamerge/datamerge_placeholders_12may2020.csv")
+# datamerge_output_file %>% write.csv("BGD_2020_Markets_Covid/outputs/datamerge/datamerge_placeholders_12may2020.csv")
 
 
 
